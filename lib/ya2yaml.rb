@@ -106,7 +106,7 @@ class Ya2YAML
 						# serialized as a generic object
 						object_members = {}
 						obj.instance_variables.each{|k,v|
-							object_members[k.sub(/^@/,'')] = obj.instance_variable_get(k)
+							object_members[k.to_s.sub(/^@/,'')] = obj.instance_variable_get(k)
 						}
 						'!ruby/object:' + obj.class.to_s + ' ' +
 						emit(object_members,level + 1)
