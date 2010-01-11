@@ -250,7 +250,7 @@ class Ya2YAML
 				when is_printable?(ucs_code)
 					c
 				when @options[:escape_as_utf8]
-					'\\x' + c.unpack('H2' * c.size).join('\\x')
+					'\\x' + c.unpack('H2' * c.bytesize).join('\\x')
 				when ucs_code == 0x2028 || ucs_code == 0x2029
 					ESCAPE_SEQ_LB[c]
 				when ucs_code <= 0x7f
