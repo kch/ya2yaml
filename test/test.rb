@@ -245,24 +245,18 @@ class TC_Ya2YAML < Test::Unit::TestCase
 
 	def test_roundtrip_string
 		chars = "aあ\t\-\?,\[\{\#&\*!\|>'\"\%\@\`.\\ \n\xc2\xa0\xe2\x80\xa8".split('')
-		
-		chars.each {|i|
-			chars.each {|j|
-				chars.each {|k|
-					chars.each {|l|
-						src = i + j + k + l
-						y =  src.ya2yaml(
-							:printable_with_syck => true,
-							:escape_b_specific   => true,
-							:escape_as_utf8      => true
-						)
-#						puts y
-						r = YAML.load(y)
-						assert_equal(src,r)
-					}
-				}
-			}
-		}
+		f = lambda { |r| chars.map { |c| r.map { |rc| c + rc } }.flatten }
+		f[f[f[f[[""]]]]]
+		chars.each do |c|
+			src = i + j + k + l
+			y = src.ya2yaml(
+				:printable_with_syck => true,
+				:escape_b_specific   => true,
+				:escape_as_utf8      => true)
+#				puts y
+			r = YAML.load(y)
+			assert_equal(src, r)
+		do
 	end
 
 	def test_roundtrip_types
