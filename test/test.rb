@@ -7,7 +7,7 @@ $: << (File.dirname(__FILE__) + '/../lib')
 
 Dir.chdir(File.dirname(__FILE__))
 
-$KCODE = 'UTF8'
+$KCODE = 'UTF8' if RUBY_VERSION < '1.9.0'
 require 'ya2yaml'
 
 require 'yaml'
