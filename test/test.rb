@@ -33,8 +33,11 @@ class TC_Ya2YAML < Test::Unit::TestCase
 	def setup
 		@text = ''
 		@gif  = ''
-		File.open('./t.yaml','r') {|f| @text = f.read}
-		File.open('./t.gif','r') {|f| @gif = f.read}
+		File.open('./t.yaml','r') {|f| @text = f.read }
+		File.open('./t.gif','r') {|f| @gif = f.read }
+		if @gif.respond_to? :force_encoding
+			@gif.force_encoding('ASCII-8BIT')
+		end
 
 		@struct = @@struct_klass.new('barbarbar',@@struct_klass.new('baaaar',12345))
 		@klass  = Moo.new('boobooboo',Time.local(2009,2,9,16,44,10))
