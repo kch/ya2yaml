@@ -73,11 +73,10 @@ class TC_Ya2YAML < Test::Unit::TestCase
 				{:syck_compatible => true},
 				"--- \n- \"\\xc2\\x86\"\n- \"a\\xe2\\x80\\xa8b\\xe2\\x80\\xa9c\"\n- \" abc\\n\\\n    xyz\"\n",
 			],
-		].each {|opt,yaml|
-			y = ["\xc2\x86","a\xe2\x80\xa8b\xe2\x80\xa9c"," abc\nxyz"].ya2yaml(opt)
-#			puts y
-
-			assert_equal(y,yaml)
+		].each { |options, expected_yaml|
+			generated_yaml = ["\xc2\x86","a\xe2\x80\xa8b\xe2\x80\xa9c"," abc\nxyz"].ya2yaml(options)
+#			puts generated_yaml
+			assert_equal(expected_yaml, generated_yaml)
 		}
 	end
 
