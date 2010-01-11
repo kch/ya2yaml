@@ -151,6 +151,7 @@ class TC_Ya2YAML < Test::Unit::TestCase
 		].each do |ucs_code|
 			[-1, 0, 1].each do |ofs|
 				(c = [ucs_code + ofs].pack('U'))
+				next unless c.valid_encoding? if c.respond_to? :valid_encoding?
 				c_hex = c.unpack('H8')
 				y = c.ya2yaml(
 					:escape_b_specific => true,
