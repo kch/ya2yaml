@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# encoding = UTF-8
 
 # $Id: test.rb,v 1.4 2007-01-19 20:41:37+09 funai Exp funai $
 
