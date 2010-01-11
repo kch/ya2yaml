@@ -184,6 +184,9 @@ class Ya2YAML
 	end
 
 	def string_type(str)
+		if str.respond_to?(:valid_encoding?) && !str.valid_encoding?
+			return false,false,false,false
+		end
 		(ucs_codes = str.unpack('U*')) rescue (
 			# ArgumentError -> binary data
 			return false,false,false,false
@@ -193,10 +196,10 @@ class Ya2YAML
 			str =~ /\A#{REX_ANY_LB}* | #{REX_ANY_LB}*\z|#{REX_ANY_LB}{2}\z/
 		)
 			# detour Syck bug
-			return true,false,is_one_line?(str),false
+			return true,false,nil,false
 		end
 		ucs_codes.each {|ucs_code|
-			return true,false,is_one_line?(str),false unless is_printable?(ucs_code)
+			return true,false,nil,false unless is_printable?(ucs_code)
 		}
 		return true,true,is_one_line?(str),is_one_plain_line?(str)
 	end
