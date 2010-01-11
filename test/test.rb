@@ -3,7 +3,7 @@
 
 # $Id: test.rb,v 1.4 2007-01-19 20:41:37+09 funai Exp funai $
 
-$: << (File.dirname(__FILE__) + '/../lib')
+$:.unshift(File.dirname(__FILE__) + '/../lib')
 
 Dir.chdir(File.dirname(__FILE__))
 
