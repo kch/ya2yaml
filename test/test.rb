@@ -31,13 +31,10 @@ class TC_Ya2YAML < Test::Unit::TestCase
 	puts "test may take minutes. please wait.\n"
 
 	def setup
-		@text = ''
-		@gif  = ''
-		File.open('./t.yaml','r') {|f| @text = f.read}
-		File.open('./t.gif','r') {|f| @gif = f.read}
-
-		@struct = @@struct_klass.new('barbarbar',@@struct_klass.new('baaaar',12345))
-		@klass  = Moo.new('boobooboo',Time.new())
+		@text   = File.open('./t.yaml', 'r') { |f| f.read }
+		@gif    = File.open('./t.gif', 'rb') { |f| f.read }
+		@struct = @@struct_klass.new('barbarbar', @@struct_klass.new('baaaar', 12345))
+		@klass  = Moo.new('boobooboo', Time.new())
 	end
 
 	def test_options
