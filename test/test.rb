@@ -144,43 +144,24 @@ class TC_Ya2YAML < Test::Unit::TestCase
 	end
 
 	def test_roundtrip_multi_byte_char
-		[
-			0x80,
-			0x85,
-			0xa0,
-			0x07ff,
-			0x0800,
-			0x0fff,
-			0x1000,
-			0x2028,
-			0x2029,
-			0xcfff,
-			0xd000,
-			0xd7ff,
-			0xe000,
-			0xfffd,
-			0x10000,
-			0x3ffff,
-			0x40000,
-			0xfffff,
-			0x100000,
-			0x10ffff,
-		].each {|ucs_code|
-			[-1,0,1].each {|ofs|
+		[ 0x000080,  0x000085,  0x0000a0,  0x0007ff,  0x000800,  0x000fff,  0x001000,
+			0x002028,  0x002029,  0x00cfff,  0x00d000,  0x00d7ff,  0x00e000,  0x00fffd,
+			0x010000,  0x03ffff,  0x040000,  0x0fffff,  0x100000,  0x10ffff,
+		].each do |ucs_code|
+			[-1, 0, 1].each do |ofs|
 				(c = [ucs_code + ofs].pack('U'))
 				c_hex = c.unpack('H8')
 				y = c.ya2yaml(
 					:escape_b_specific => true,
-					:escape_as_utf8    => true
-				)
+					:escape_as_utf8    => true)
 #				puts y
 				r = YAML.load(y)
 				assert_equal(
-					[c_hex,(c =~ /\xc2\x85/u ? "\n" : c)],
-					[c_hex,r]
+					[c_hex, (c =~ /\xc2\x85/u ? "\n" : c)],
+					[c_hex, r]
 				) # "\N" is normalized as "\n".
-			}
-		}
+			end
+		end
 	end
 
 	def test_roundtrip_ambiguous_string
