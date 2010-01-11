@@ -208,6 +208,9 @@ class TC_Ya2YAML < Test::Unit::TestCase
 					:escape_as_utf8    => true
 				)
 				r = YAML.load(y)
+				if r.respond_to? :force_encoding
+					r.force_encoding('UTF-8')
+				end
 				assert_equal(
 					(c == "\xc2\x85" ? "\n" : c), # "\N" is normalized as "\n"
 					r,
