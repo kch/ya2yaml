@@ -177,7 +177,7 @@ class TC_Ya2YAML < Test::Unit::TestCase
 			0x10ffff,
 		].each {|ucs_code|
 			[-1,0,1].each {|ofs|
-				(c = [ucs_code + ofs].pack('U')) rescue next
+				(c = [ucs_code + ofs].pack('U'))
 				c_hex = c.unpack('H8')
 				y = c.ya2yaml(
 					:escape_b_specific => true,
