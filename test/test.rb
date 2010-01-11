@@ -363,6 +363,59 @@ class TC_Ya2YAML < Test::Unit::TestCase
 		]
 
 		objects.each {|obj|
+			y = obj.ya2yaml(
+				:syck_compatible => true
+			)
+			if obj == @struct
+				assert_equal(
+					<<'_eof',
+--- !ruby/struct:Foo 
+  bar: barbarbar
+  buz: !ruby/struct:Foo 
+      bar: baaaar
+      buz: 12345
+_eof
+					y,
+					"Syck can't load structs on Ruby 1.9, so only check emitted YAML."
+				)
+				next unless RUBY_VERSION < '1.9.0'
+			end
+
+			r = YAML.load(y)
+			if r.is_a?(::String) && r.respond_to?(:force_encoding)
+				r.force_encoding('UTF-8')
+			end
+			assert_equal(
+				obj,
+				r,
+				'types other than String should round-trip properly'
+			)
+		}
+
+		objects = [
+			[],
+			[1],
+			{},
+			{'foo' => 'bar'},
+			nil,
+			'hoge',
+			"abc\nxyz\n",
+#			"\xff\xff", # Syck load this with 'ASCII-8BIT' encoding
+			true,
+			false,
+			1000,
+			1000.1,
+			-1000,
+			-1000.1,
+			Date.new(2009,2,9),
+			Time.local(2009,2,9,16,35,22),
+			:foo,
+			1..10,
+			/abc\nxyz/i,
+#			@struct, # Syck can't load structs on Ruby 1.9
+			@klass,
+		]
+		objects.each {|obj|
 			src = case obj.class.to_s
 				when 'Array'
 					(obj.length) == 0 ? [] : objects
