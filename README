@@ -8,7 +8,8 @@ Ya2YAML is "yet another to_yaml". It emits YAML document with complete UTF8 supp
 
 *code*:
 
-  $KCODE = 'UTF8'
+  # encoding: UTF-8
+  $KCODE = 'UTF8' unless RUBY_VERSION >= '1.9'
   require 'ya2yaml'
   
   obj = [
