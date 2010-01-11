@@ -13,6 +13,14 @@ require 'ya2yaml'
 require 'yaml'
 require 'test/unit'
 
+class << Struct
+  alias yaml_new_without_indifferent_keys yaml_new
+  def yaml_new(klass, tag, val)
+    val.keys.each { |k, v| val[k.to_sym] = val.delete(k) }
+    yaml_new_without_indifferent_keys(klass, tag, val)
+  end
+end if RUBY_VERSION >= "1.9"
+
 class TC_Ya2YAML < Test::Unit::TestCase
 
 	@@struct_klass = Struct::new('Foo',:bar,:buz)
