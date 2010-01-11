@@ -40,37 +40,28 @@ class TC_Ya2YAML < Test::Unit::TestCase
 	end
 
 	def test_options
-		[
-			[
-				{},
+		[ [ {},
 				"--- \n- \"\\u0086\"\n- |-\n    a\xe2\x80\xa8    b\xe2\x80\xa9    c\n- |4-\n     abc\n    xyz\n",
 			],
-			[
-				{:indent_size => 4},
+			[ { :indent_size => 4 },
 				"--- \n- \"\\u0086\"\n- |-\n        a\xe2\x80\xa8        b\xe2\x80\xa9        c\n- |8-\n         abc\n        xyz\n",
 			],
-			[
-				{:minimum_block_length => 16},
+			[ { :minimum_block_length => 16 },
 				"--- \n- \"\\u0086\"\n- \"a\\Lb\\Pc\"\n- \" abc\\nxyz\"\n",
 			],
-#			[
-#				{:emit_c_document_end => true},
+#			[ { :emit_c_document_end => true },
 #				"--- \n- \"\\u0086\"\n- |-\n    a\xe2\x80\xa8    b\xe2\x80\xa9    c\n- |4-\n     abc\n    xyz\n...\n",
 #			],
-			[
-				{:printable_with_syck => true},
+			[ { :printable_with_syck => true },
 				"--- \n- \"\\u0086\"\n- |-\n    a\xe2\x80\xa8    b\xe2\x80\xa9    c\n- \" abc\\n\\\n    xyz\"\n",
 			],
-			[
-				{:escape_b_specific => true},
+			[ { :escape_b_specific => true },
 				"--- \n- \"\\u0086\"\n- \"a\\Lb\\Pc\"\n- |4-\n     abc\n    xyz\n",
 			],
-			[
-				{:escape_as_utf8 => true},
+			[ { :escape_as_utf8 => true },
 				"--- \n- \"\\xc2\\x86\"\n- |-\n    a\xe2\x80\xa8    b\xe2\x80\xa9    c\n- |4-\n     abc\n    xyz\n",
 			],
-			[
-				{:syck_compatible => true},
+			[ { :syck_compatible => true },
 				"--- \n- \"\\xc2\\x86\"\n- \"a\\xe2\\x80\\xa8b\\xe2\\x80\\xa9c\"\n- \" abc\\n\\\n    xyz\"\n",
 			],
 		].each { |options, expected_yaml|
